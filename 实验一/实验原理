@@ -1,0 +1,20 @@
+1、用户在一个txt文件中输入一段有意义的高级语言源程序
+写一个readTxt()函数。利用FileReader打开一个事先写好代码的txt。利用BufferedReader读取txt内容到缓冲区，记为String buffer，并显示到显示器。
+
+2、词法分析程序读入上述文件，并进行预处理（删除回车换行、注释）
+写一个pretreatment()函数。其中利用File和InputStreamReader打开txt，利用BufferedReader读取txt内容。利用File的createNewFile()创建新文件。设置空格、制表符、注释的正则表达式，创建Pattern对象，处理正则表达式。利用FileWriter将处理后的字符串写入新的output.txt文件。
+
+3、词法分析器扫描预处理后的源程序，识别各单词
+规定单词类别：常数，种别0；关键字，种别[1,50]；运算符，种别 [51,100)；分隔符，种别 [101,150)；标识符，种别200。
+	①String strToken存放构成单词符号的字符串，char ch存放最新读进的源程序字符
+②创造isLetter()、isDigit()、isKeyWord()、isOperator()、isSeparators()，分别判断是否为字母、数字、关键字、运算符、分隔符。
+③创造getChar()，读取当前字符到ch中；
+ 创造getBc()，如果ch为空白则进入下一个字符；
+ 创造concat()，将ch连接到strToken之后；
+ 创造retract()，将“指针”回调回上个字符位置，并ch置空。
+		④创造analyse()，对buffer进行词法分析。
+		  依次读取单个字符ch进行分析：
+1）如果单词首字符ch为字母：如果为关键字，则插入到保留字表中；否则插入到符号表中。
+2）如果单词首字符ch为数字：如果下一个ch为字母，则为非正常标识符，读出是第几个单词；如果是数字，则是常数，插入到常数表中。
+			3）如果单词为分隔符：插入到分隔符表中。
+			4）如果是运算符，则插入到运算符表。
